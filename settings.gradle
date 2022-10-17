@@ -1,0 +1,3 @@
+include ':mvvmrapid'
+include ':app'
+rootProject.name = "MVVMRapid"

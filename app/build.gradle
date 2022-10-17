@@ -1,0 +1,81 @@
+plugins {
+    id 'com.android.application'
+    // greendao 数据库
+    id 'org.greenrobot.greendao'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.yutuo.warehouse"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // 数据库
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.yutuo.warehouse.data.db.dao'
+        targetGenDir 'src/main/java'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+
+}
+
+dependencies {
+    implementation project(path: ':mvvmrapid')
+
+    // 单元测试
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // 内存泄漏测试
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2' // 2.6以上版本会报错
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
+
+    // RecyclerView封装的Adapter
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.9'
+
+
+    // RecyclerView刷新布局
+    api  'com.scwang.smart:refresh-layout-kernel:2.0.3'       // 核心必须依赖
+    api  'com.scwang.smart:refresh-header-classics:2.0.3'    // 经典刷新头
+
+    // 自定义扫描 https://github.com/bingoogolapple/BGAQRCode-Android
+    api('com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8') {
+        transitive true
+        exclude group: 'com.google.zxing'
+    }
+    // 因为排除了zxing，我们这边用最新的zxing https://github.com/zxing/zxing
+    api 'com.google.zxing:core:3.4.1'
+
+    // a must
+    implementation 'com.google.android.material:material:1.2.1'
+
+    // 数据库
+    api 'org.greenrobot:greendao:3.3.0'
+    // 升级数据库辅助
+    api 'io.github.yuweiguocn:GreenDaoUpgradeHelper:v2.2.1'
+    // 升级数据库加密
+    api 'net.zetetic:android-database-sqlcipher:3.5.6'
+}
