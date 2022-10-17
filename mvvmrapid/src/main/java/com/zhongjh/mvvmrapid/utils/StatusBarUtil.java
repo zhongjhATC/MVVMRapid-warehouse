@@ -48,7 +48,10 @@ public class StatusBarUtil {
      * @return 状态栏高度
      */
     public static int getStatusBarHeight(Resources resources) {
-        // 获得状态栏高度
+        // 是为了开发时的预览能看到xml
+        if (MMKV.getRootDir() == null) {
+            return 0;
+        }
         MMKV kv = MMKV.defaultMMKV();
         if (kv != null) {
             if (kv.contains(Constants.STATUS_BAR_HEIGHT)) {
